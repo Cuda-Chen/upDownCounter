@@ -9,29 +9,55 @@ entity upDownCounter is
 		upTrigger   : in std_logic; -- trigger to count up
 		downTrigger : in std_logic; -- trigger to count down
 		
-		sseg        : out std_logic_vector(6 downto 0) -- 7 segment display
+		sseg        : out std_logic_vector(0 to 6) -- 7 segment display
 	);
 end entity;
 
 architecture Behavioral of upDownCounter is
-	signal counter : std_logic_vector(3 downto 0);
+	signal counter   : std_logic_vector(3 downto 0);
+	signal prev_up   : std_logic := '0'; -- flag of counting upward
+	signal prev_down : std_logic := '0'; -- flag of counting downward
 begin
-	process(clk, rst, upTrigger, downTrigger) 
+
+	-- set flag prev_up
+--	process(upTrigger)
+--	begin
+--		if(rising_edge(upTrigger)) then
+--			prev_up <= '1';
+--		else
+--			prev_up <= '0';
+--		end if;
+--	end process;
+	
+	-- set flag prev_down
+--	process(downTrigger)
+--	begin
+--		if(rising_edge(downTrigger)) then
+--			prev_down <= '1';
+--		else
+--			prev_down <= '0';
+--		end if;
+--	end process;
+
+	-- set value of counter
+	process(clk, rst) 
 	begin
 		if(rst = '1') then -- if reset switch is on
 			counter <= (others => '0');
 		elsif(clk'event and rising_edge(clk)) then 
-			if(upTrigger = '1') then -- if up switch is switched to on, may have problem here
-				counter <= counter + 1;
-			elsif(downTrigger = '1') then -- if down switch is switched to on, may have problem here
-				counter <= counter - 1;
+		
+			prev_up <= upTrigger;
+			prev_down <= downTrigger;
+		
+			if(prev_up = '0' and upTrigger = '1') then -- if up switch is switched to on, may have problem here
+				counter <= counter + 1; -- count upward
+			elsif(prev_down = '0' and downTrigger = '1') then -- if down switch is switched to on, may have problem here
+				counter <= counter - 1; -- count downward
 			end if;
-			
-			--counter <= counter;
 		end if;	
 	end process;
 	
-	-- assign the value to ssegtaccording to the value of counter
+	-- assign the signals to sseg according to the value of counter
 	process(counter)
 	begin
 		case counter is
