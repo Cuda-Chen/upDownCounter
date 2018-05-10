@@ -2,6 +2,12 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
+--
+-- description: an up/down counter with sliding switch feature
+-- input: a clock, reset, and two triggered (indicating to count up or down) signals 
+-- output: a set of signals used on 7-segment display
+--
+
 entity upDownCounter is
 	port(
 		clk         : in std_logic; -- input clock
@@ -15,29 +21,9 @@ end entity;
 
 architecture Behavioral of upDownCounter is
 	signal counter   : std_logic_vector(3 downto 0);
-	signal prev_up   : std_logic := '0'; -- flag of counting upward
-	signal prev_down : std_logic := '0'; -- flag of counting downward
+	signal prev_up   : std_logic := '0'; -- signal storing previous up trigger's state
+	signal prev_down : std_logic := '0'; -- signal storing previous down trigger's state
 begin
-
-	-- set flag prev_up
---	process(upTrigger)
---	begin
---		if(rising_edge(upTrigger)) then
---			prev_up <= '1';
---		else
---			prev_up <= '0';
---		end if;
---	end process;
-	
-	-- set flag prev_down
---	process(downTrigger)
---	begin
---		if(rising_edge(downTrigger)) then
---			prev_down <= '1';
---		else
---			prev_down <= '0';
---		end if;
---	end process;
 
 	-- set value of counter
 	process(clk, rst) 
@@ -46,12 +32,13 @@ begin
 			counter <= (others => '0');
 		elsif(clk'event and rising_edge(clk)) then 
 		
+			-- store the previous up and down trigger's state
 			prev_up <= upTrigger;
 			prev_down <= downTrigger;
 		
-			if(prev_up = '0' and upTrigger = '1') then -- if up switch is switched to on, may have problem here
+			if(prev_up = '0' and upTrigger = '1') then 
 				counter <= counter + 1; -- count upward
-			elsif(prev_down = '0' and downTrigger = '1') then -- if down switch is switched to on, may have problem here
+			elsif(prev_down = '0' and downTrigger = '1') then 
 				counter <= counter - 1; -- count downward
 			end if;
 		end if;	

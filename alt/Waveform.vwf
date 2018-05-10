@@ -21,6 +21,7 @@ after 2500 simTimestamp
 run -all
 quit -f
 
+
 </modelsim_script>
 <modelsim_script_timing>onerror {exit -code 1}
 vlib work
@@ -39,6 +40,7 @@ proc simTimestamp {} {
 after 2500 simTimestamp
 run -all
 quit -f
+
 
 </modelsim_script_timing>
 <hdl_lang>vhdl</hdl_lang>
@@ -216,11 +218,7 @@ TRANSITION_LIST("downTrigger")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 260.0;
-		LEVEL 1 FOR 70.0;
-		LEVEL 0 FOR 290.0;
-		LEVEL 1 FOR 60.0;
-		LEVEL 0 FOR 320.0;
+		LEVEL 0 FOR 1000.0;
 	}
 }
 
@@ -229,9 +227,7 @@ TRANSITION_LIST("rst")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 530.0;
-		LEVEL 1 FOR 60.0;
-		LEVEL 0 FOR 410.0;
+		LEVEL 0 FOR 1000.0;
 	}
 }
 
@@ -303,11 +299,12 @@ TRANSITION_LIST("upTrigger")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 70.0;
-		LEVEL 1 FOR 70.0;
-		LEVEL 0 FOR 20.0;
-		LEVEL 1 FOR 80.0;
-		LEVEL 0 FOR 760.0;
+		NODE
+		{
+			REPEAT = 25;
+			LEVEL 0 FOR 20.0;
+			LEVEL 1 FOR 20.0;
+		}
 	}
 }
 
