@@ -1,9 +1,9 @@
 # Description
-An up/down counter with enabled switch.
+An up/down counter with enabled switch feature.
 
 # How to Compile and Program
 ## Compile
-Open the project (.qpf) file in alt/, then run compilation.
+Open the project (.qpf) file in ```alt/```, then run compilation.
 
 ## Program
 Use the programming feature in Quartus to program.
@@ -16,3 +16,5 @@ The development platform I use is described below:
 	* Quartus Prime Standard Edition, ver. 17.1
 * OS
 	* Windws 7 SP1
+	
+Also, I have no solve the switch debouncing issue.
