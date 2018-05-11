@@ -26,7 +26,7 @@ architecture Behavioral of upDownCounter is
 begin
 
 	-- set value of counter
-	process(clk, rst) 
+	setValue : process(clk, rst) 
 	begin
 		if(rst = '1') then -- if reset switch is on
 			counter <= (others => '0');
@@ -45,7 +45,7 @@ begin
 	end process;
 	
 	-- assign the signals to sseg according to the value of counter
-	process(counter)
+	assignSseg : process(counter)
 	begin
 		case counter is
 			when "0000" => sseg <= "0000001"; -- "0"	
